@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load materializecss %}
+
+{% block content %}
+
+<br>
+<br>
+<br>
+    <form method="POST" class="col s12">
+        <div class="container">
+
+            <div class="container">
+
+                {% csrf_token %}
+                {{ form|materializecss:"icon=chevron_right" }}
+                
+                <br>
+                <div class="text-right">
+                    <a href="{% url 'index' %}" class="btn btn-secondary blue-grey darken-4 text-white" type="button">
+                        <span class="text">Cancelar</span>
+                    </a>
+                    <button class="btn btn-primary blue-grey darken-4" type="submit">
+                        <span class="text">Enviar</span>
+                    </button>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

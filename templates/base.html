@@ -1,0 +1,82 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Controle Estoque</title>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}" media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <script type="text/javascript" src="{% static 'js/materialize.min.js' %}" defer></script>
+        <script src="js/index.js" defer></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/js/materialize.min.js" integrity="sha256-SrBfGi+Zp2LhAvy9M1bWOCXztRU9Ztztxmu5BcYPcPE=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{% static 'js/index.js'%}"></script>
+
+    </head>
+
+    <body>
+
+        <script>
+            $(document).ready(function(){
+                $('select').formSelect();
+            });
+        </script>
+
+        <main>
+            <ul id="dropdown1" class="dropdown-content">
+                <li><a href="{% url 'registrar_empresa' %}" class="blue-grey-text text-darken-4">Cadastrar Empresa</a></li>
+                <li class="divider"></li>
+                <li><a href="{% url 'registrar_vendedor' %}" class="blue-grey-text text-darken-4">Cadastrar Vendededor</a></li>
+                <li class="divider"></li>
+                <li><a href="{% url 'registrar_produto' %}" class="blue-grey-text text-darken-4">Cadastrar Produto</a></li>
+                <li class="divider"></li>
+                <li><a href="{% url 'registrar_estoque' %}" class="blue-grey-text text-darken-4">Cadastrar Produto no Estoque</a></li>
+            </ul>
+                <nav>
+                    <div class="nav-wrapper blue-grey darken-4">
+                    <a href="{% url 'index' %}" class="brand-logo"><i class="material-icons">store</i>Controle Estoque</a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="{% url 'registrar_pessoa' %}">Cadastrar Usuário</a></li>
+                        <li><a href="{% url 'registrar_gerente' %}">Cadastrar Gerente</a></li>
+                        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Opções<i class="material-icons right">arrow_drop_down</i></a></li>
+                    </ul>
+                    </div>
+                </nav>
+        </main>
+
+        <main>
+            {% if messages %}
+                <div class="container">
+                    <div class="alert card light-green lighten-2 text-lighten-2">
+                        <div class="card-content">
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <footer class="page-footer blue-grey darken-4" style="position:fixed;bottom:0;left:0;width:100%;">
+            <div class="footer-copyright">
+                <div class="container">
+                    © Copyright 
+                                2021 Controle Estoque 
+                    <a class="white-text text-lighten-3 right" href="#!">MORE LINKS</a>
+                </div>
+        </footer>
+        
+    
+    </body>
+</html>
+
