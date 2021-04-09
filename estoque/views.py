@@ -52,3 +52,20 @@ def registrar_produtoestoque(request):
     return render(request, "registrar_estoque.html", context)
 
 
+def visualizar_produtoestoque(request):
+
+    listaprodutoestoque = ProdutoEstoque.objects.all()
+
+    if request.POST:
+        pesquisa = request.POST.get("pesquisa", None)
+        listaprodutoestoque = ProdutoEstoque.objects.filter(
+            produto__nome__contains=pesquisa)
+
+
+    context = {
+        "nome_pagina": "Produto Estoque",
+        "listaprodutoestoque": listaprodutoestoque,
+    }
+
+    return render(request, "produto_estoque.html", context)
+

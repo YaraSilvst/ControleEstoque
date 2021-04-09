@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+
 
 STATUS_GENERO = [
     ("FEMININO", "Feminino"),
@@ -22,7 +24,42 @@ STATUS_ESCOLARIDADE = [
     ("ESC", "Ensino Superior completo"),
 ]
 
-class Pessoa(models.Model):
+class UsuarioManager(BaseUserManager):
+
+    def create_user(self, email, password=None):
+        usuario = self.model(
+            email=self.normalize_email(email),
+        )
+
+        usuario.is_active = True
+        usuario.is_staff = False
+        usuario.is_superuser = False
+
+        if password:
+            usuario.set_password(password)
+        
+        usuario.save()
+
+        return usuario
+
+    def create_superuser(self, email, password):
+        usuario = self.create_user(
+            email=self.normalize_email(email),
+            password=password,
+        )
+
+
+        usuario.is_active = True
+        usuario.is_staff = True
+        usuario.is_superuser = True
+
+        usuario.set_password(password)
+        
+        usuario.save()
+
+        return usuario
+
+class Pessoa(AbstractBaseUser, PermissionsMixin):
 
     nome_completo = models.CharField(
         verbose_name = "Nome completo",
@@ -32,6 +69,7 @@ class Pessoa(models.Model):
     email = models.CharField(
         verbose_name = "E-mail",
         max_length = 194,
+        unique=True,
     )
 
     cpf = models.CharField(
@@ -42,6 +80,7 @@ class Pessoa(models.Model):
 
     data_nascimento = models.DateField(
         verbose_name = "Data de nascimento",
+        null=True,
         auto_now = False,
         auto_now_add = False,
     )
@@ -114,6 +153,26 @@ class Pessoa(models.Model):
         max_length = 50,
         auto_now_add = True,
     )
+
+
+    is_active = models.BooleanField(
+        verbose_name="Usuário está ativo",
+        default=True,
+    )
+
+    is_staff = models.BooleanField(
+        verbose_name="Usuário é da equipe de desenvolvimento",
+        default=False,
+    )
+
+    is_superuser = models.BooleanField(
+        verbose_name="Usuário é um superusuário",
+        default=False,
+    )
+
+    USERNAME_FIELD = "email"
+
+    objects = UsuarioManager()
 
     class Meta:
         verbose_name = "Pessoa"

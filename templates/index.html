@@ -2,34 +2,35 @@
 
 {%block content%}
 
+<h4 class=center>Produtos Cadastrados</h4>
+
+<br>
+
     <main>
         <div class="container">
-            {% for produto in listaprodutos %}
-                {{produto.nome}}
-            {% endfor %}
+
 
             <div class="container">
                 <div class="row">
-                    <h3 class=center>Produtos Cadastrados</h3>
                     <table>
                         <thead>
                             <tr>
                                 <th>Nome</th>
                                 <th>Descriçao</th>
-                                <th>Data Validade</th>
+                                <th>Tipo</th>
                             </tr>
                         </thead>            
                         <tbody>
                             {% for obj in listaprodutos %}
                                 <tr>
                                     <td>
-                                        {{ obj.produto.nome }}
+                                        {{ obj.nome }}
                                     </td>
                                     <td>
-                                        {{ obj.produto.descricao}}
+                                        {{ obj.descricao}}
                                     </td>
                                     <td>
-                                        {{ obj.data_validade }}
+                                        {{ obj.status_tipo }}
                                     </td>
                                 </tr>
                             {% endfor%}
@@ -39,8 +40,12 @@
             </div> 
 
             <div class="container center">
-                <a href="{% url 'movimentacao' %}" class="btn btn-secondary blue-grey darken-4 text-white" type="button">
-                    <span class="text">Movimentação</span>
+                <a href="{% url 'movimentacao_entrada' %}" class="btn btn-secondary blue-grey darken-4 text-white" type="button">
+                    <span class="text">Entrada</span>
+                </a>
+
+                <a href="{% url 'movimentacao_saida' %}" class="btn btn-secondary blue-grey darken-4 text-white" type="button">
+                    <span class="text">Saída</span>
                 </a>
             </div>
 

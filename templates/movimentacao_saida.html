@@ -5,15 +5,11 @@
 {% block content %}
 
     <script>
-        $(document).ready(function(){   
-            $("#addProduto").click(function() {                
-                var clone = $(".Table .Row").first().clone() 
-                clone.appendTo(".Table");
-                $('select').formSelect();
-                clone.find('.select-dropdown').first().remove()
-            });
-        });
+        
     </script>
+
+<h4 class=center>Transações Saída</h4>
+
 <br>
 <br>
 <br>
@@ -28,22 +24,22 @@
                 <div class="Table">
                     <div class="Row col-md-12">
                         <div class="input-field col s12">
-                            <select name="Produto[]" id="id_Produto">
+                            <select name="Produto[]" id="id_Pro0" class="PRO">
                                 <option value="" disabled selected>Escolha um produto</option>
                                 {% for q in listProdutos %}
-                                    <option value="{{q.id}}">{{q.produto.nome}} - Quantidade em estoque: {{q.quantidade}}</option>
+                                    <option value="{{q.id}}">{{q.produto.nome}} | Data Validade: {{q.data_validade }} | Quantidade: {{q.quantidade}}</option>
                                 {% endfor %}
                             </select>
                             <label>Materialize Select</label>
                         </div>
                         <div class="input-field col s6">
-                            <input placeholder="Placeholder" id="id_Qtd" type="text" name="Qtd[]" class="validate">
+                            <input placeholder="Placeholder" id="id_Qtd0" type="text" name="Qtd[]" class="QTD validate">
                             <label for="first_name">Quantidade</label>
                         </div>
                     </div>
                 </div>
                 <a type="" class="btn btn-primary waves-effect blue-grey darken-4" href="javascript:" id="addProduto">      
-                    <span class="font-bold">Adicionar outro produto!</span>
+                    <span class="font-bold">Adicionar outro produto</span>
                 </a>
                 <br><br><br><br>
                 <div class="text-right">
@@ -64,5 +60,37 @@
             </div>
         </div>
     </form>
+
+    <script>
+        var cont = 0;        
+        $(document).ready(function(){
+            cont = 1
+            $("#addProduto").click(function() {                
+                var clone = $(".Table .Row").first().clone() 
+                clone.appendTo(".Table");
+                $('select').formSelect();
+                clone.find('.select-dropdown').first().remove()
+
+                clone.find('.PRO').last().attr('id','id_Pro'+cont);
+                clone.find('.QTD').last().attr('id','id_Qtd'+cont);
+                cont = cont +1;
+            });
+        });
+        $('form').submit(function() {                         
+            for (i = 0; i < cont; i++) {
+                var produto = parseInt($('#id_Pro'+i).val());
+                var qtd = parseFloat($('#id_Qtd'+i).val());
+
+                {% for q in listProdutos %}
+                    var aux = parseFloat({{q.quantidade}})               
+                    if({{q.id}} == produto && aux < qtd){                        
+                        M.toast({html: 'Quantidade de venda maior que disponivel.'});
+                        $('#id_Qtd'+i).focus();
+                        return false;
+                    } 
+                {% endfor %}
+            }      
+        });
+    </script>
 
 {% endblock %}

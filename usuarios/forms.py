@@ -2,10 +2,18 @@ from django import forms
 from usuarios.models import *
 
 class PessoaForm(forms.ModelForm):
+
+    def save(self, commit=True):
+        user = super(PessoaForm, self).save(commit=False)
+        user.set_password(self.cleaned_data['password'])
+        if commit:
+            user.save()
+        return user
+        
     class Meta: 
         model = Pessoa
         fields = [
-            "nome_completo", "cpf", "data_nascimento", "email", "celular",
+            "nome_completo", "cpf", "data_nascimento", "email", "celular", "password"
         ]
 
         error_messages = {
@@ -28,7 +36,10 @@ class PessoaForm(forms.ModelForm):
 
             "celular": {
                 "required": "O celular do usuário é obrigatória para o registro",
-            }
+            },
+            "password": {
+                "required": "Insira uma senha válida",
+            },
         }
 
 class GerenteForm(forms.ModelForm):

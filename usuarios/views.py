@@ -3,10 +3,12 @@ from django.contrib import messages
 from estoque.models import *
 from usuarios.models import *
 from usuarios.forms import *
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def index(request):
 
-    listaprodutos = ProdutoEstoque.objects.all()
+    listaprodutos = Produto.objects.all()
     context = {
         "listaprodutos": listaprodutos,
     }
@@ -37,7 +39,7 @@ def registrar_pessoa(request):
     return render(request, "registrar_pessoa.html", context)
 
 
-
+@login_required
 def registrar_gerente(request):
 
     form = GerenteForm()
@@ -62,7 +64,7 @@ def registrar_gerente(request):
     return render(request, "registrar_gerente.html", context)
 
 
-
+@login_required
 def registrar_empresa(request):
 
     form = EmpresaForm()
@@ -87,7 +89,7 @@ def registrar_empresa(request):
     return render(request, "registrar_empresa.html", context)
 
 
-
+@login_required
 def registrar_vendedor(request):
 
     form = VendedorForm()

@@ -1,0 +1,74 @@
+{%extends "base.html"%}
+
+{% load materializecss %}
+
+{% block content %}
+
+<h4 class=center>Produtos em Estoque</h4>
+
+<br>
+
+    <main>
+        
+        <div class="container">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="container">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">search</i>
+                            <input type="text" name="pesquisa" id="pesquisa" class="col s10">
+                            <label for="autocomplete-input">Pesquisar Produto</label>
+                            <button class="waves-effect waves-light btn col s1 blue-grey darken-4" type="submit"><i class="material-icons">search</i></button>
+                        </div>
+                    </div>
+                </div>                    
+            </form>
+        </div>
+
+        <div class="container">
+            <div class="container">
+                <div class="row">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Data Validade</th>
+                                <th>Quantidade</th>
+                            </tr>
+                        </thead>            
+                        <tbody>
+                            {% for obj in listaprodutoestoque %}
+                                <tr>
+                                    <td>
+                                        {{ obj.produto.nome }}
+                                    </td>
+                                    <td>
+                                        {{ obj.produto.descricao }}
+                                    </td>
+                                    <td>
+                                        {{ obj.data_validade }}
+                                    </td>
+                                    <td>
+                                        {{ obj.quantidade }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div> 
+
+            <div class="container center">
+                <a href="{% url 'index' %}" class="btn btn-secondary blue-grey darken-4 text-white" type="button">
+                    <span class="text">Ínicio</span>
+                </a>
+            </div>
+
+        </div>
+        
+    </main>
+
+
+{% endblock %}

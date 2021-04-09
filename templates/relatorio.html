@@ -1,0 +1,88 @@
+{%extends "base.html"%}
+
+{% load materializecss %}
+
+{% block content %}
+
+<h4 class=center>Relatórios</h4>
+
+<br>
+
+    <main>
+        <div class="container">
+            <div class="container">
+                <div class="row">
+                    <table>
+                        <thead>
+                            <tr>
+                                </tr>
+                                <th>Gerente</th>
+                                <th>Vendedor</th>
+                                <th>Empresa</th>
+                                <th>Movimentação</th>
+                                <th class="center">Produto</th>                                
+                            </tr>
+                        </thead>            
+                        <tbody>
+                            {% for obj in listrelatorio  %}
+                                <tr>
+                                    <td class="center">
+                                        {{ obj.Movimentacao.gerente }}
+                                    </td>
+                                    <td class="center">
+                                        {{ obj.Movimentacao.vendedor.pessoa }}
+                                    </td>
+                                    <td class="center">
+                                        {{ obj.Movimentacao.empresa }}
+                                    </td>
+                                    <td class="center">
+                                        {{ obj.Movimentacao }}
+                                    </td>
+                                    <td>
+                                    
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Nome</th>
+                                                    <th>Descrição</th>
+                                                    <th>Quantidade</th>
+                                                </tr>
+                                            </thead>
+                                            {%for q in obj.Produtos%}
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="center">                                       
+                                                            {{ q.produto.nome }}
+                                                        </td>
+                                                        <td class="center">
+                                                            {{ q.produto.descricao }}
+                                                        </td>
+                                                        <td class="center">
+                                                            {{ q.quantidade }}
+                                                        </td>
+                                                    
+                                                    </tr>
+                                                </tbody>
+                                            {%endfor%}
+                                        </table>
+                                        
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div> 
+
+            <div class="container center">
+                <a href="{% url 'index' %}" class="btn btn-secondary blue-grey darken-4 text-white" type="button">
+                    <span class="text">Ínicio</span>
+                </a>
+            </div>
+
+        </div>
+        
+    </main>
+
+
+{% endblock %}

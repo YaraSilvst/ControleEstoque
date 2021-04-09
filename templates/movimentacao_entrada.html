@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% load materializecss %}
+
+{% block content %}
+
+    <script>
+        $(document).ready(function(){   
+            $("#addProduto").click(function() {                
+                var clone = $(".Table .Row").first().clone() 
+                clone.appendTo(".Table");
+                $('select').formSelect();
+                clone.find('.select-dropdown').first().remove()
+            });
+        });
+    </script>
+
+<h4 class=center>Transações Entrada</h4>
+
+<br>
+<br>
+<br>
+    <form method="POST" class="col s12">
+        <div class="container">
+
+            <div class="container">
+
+                {% csrf_token %}
+                {{ form|materializecss:"icon=chevron_right" }}
+                <br><br><br>
+                <div class="Table">
+                    <div class="Row col-md-12">
+                        <div class="input-field col s12">
+                            <select name="Produto[]" id="id_Produto">
+                                <option value="" disabled selected>Escolha um produto</option>
+                                {% for q in listProdutos %}
+                                    <option value="{{q.id}}"> {{q.nome}} </option>
+                                {% endfor %}
+                            </select>
+                            <label>Materialize Select</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input placeholder="Placeholder" id="id_Qtd" type="text" name="Qtd[]" class="validate">
+                            <label for="first_name">Quantidade</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input placeholder="Placeholder" id="id_DataVali" type="date" name="DataVali[]" class="validate">
+                            <label for="first_name">Data Validade</label>
+                        </div>
+                    </div>
+                </div>
+                <a type="" class="btn btn-primary waves-effect blue-grey darken-4" href="javascript:" id="addProduto">      
+                    <span class="font-bold">Adicionar outro produto</span>
+                </a>
+                <br><br><br><br>
+                <div class="text-right">
+                    <a href="{% url 'index' %}" class="btn btn-secondary blue-grey darken-4 text-white" type="button">
+                        <span class="text">Cancelar</span>
+                    </a>
+
+                <button class="btn btn-primary blue-grey darken-4" type="submit">
+                    <span class="text">Enviar</span>
+                </button>
+                    
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
